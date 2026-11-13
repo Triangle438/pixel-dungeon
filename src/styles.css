@@ -1,0 +1,72 @@
+:root {
+  --bg: #0b0d13;
+  --surface: #151925;
+  --surface-2: #1f2536;
+  --border: #2c3350;
+  --text: #e8eaf2;
+  --muted: #98a0bb;
+  --accent: #3ddbc0;
+  --danger: #ff5a5a;
+  --radius: 14px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, p { margin: 0; }
+.muted { color: var(--muted); font-size: 0.85rem; }
+
+.layout { max-width: 1180px; margin: 0 auto; padding: 0 16px 40px; }
+.header { padding: 24px 0 16px; display: grid; gap: 4px; }
+.header h1 { font-size: clamp(1.5rem, 4vw, 2.1rem); }
+
+.game { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
+.stage { position: relative; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: #0a0c12; }
+.canvas { display: block; width: 100%; height: auto; aspect-ratio: 25 / 17; }
+
+.overlay { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 10px; background: rgba(8, 9, 14, 0.82); text-align: center; padding: 16px; }
+.overlay h2 { color: var(--danger); font-size: 1.6rem; }
+
+.side { display: grid; gap: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; display: grid; gap: 10px; }
+
+.hp { position: relative; height: 26px; background: var(--surface-2); border-radius: 8px; overflow: hidden; }
+.hp__fill { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, #d93b4a, #ff6b6b); transition: width 0.2s; }
+.hp__text { position: absolute; inset: 0; display: grid; place-items: center; font-size: 0.85rem; font-weight: 700; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0; }
+.stats div { background: var(--surface-2); border-radius: 10px; padding: 6px 10px; }
+.stats dt { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.stats dd { margin: 0; font-size: 1.15rem; font-weight: 700; }
+
+.log { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; min-height: 9.5em; font-size: 0.9rem; color: var(--muted); align-content: end; }
+.log__latest { color: var(--text); }
+
+.help { font-size: 0.85rem; color: var(--muted); }
+kbd { background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 0 6px; font-family: inherit; color: var(--text); }
+.legend { font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+.btn { background: var(--accent); color: #04241e; border: 0; border-radius: 10px; padding: 10px 16px; font-weight: 700; }
+.btn:hover { filter: brightness(1.1); }
+.btn--ghost { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+
+.dpad { display: none; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(3, 56px); gap: 6px; justify-content: center; }
+.dpad button { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; font-size: 1.2rem; touch-action: manipulation; }
+.dpad button:active { background: var(--border); }
+.dpad__up { grid-area: 1 / 2; }
+.dpad__left { grid-area: 2 / 1; }
+.dpad__wait { grid-area: 2 / 2; }
+.dpad__right { grid-area: 2 / 3; }
+.dpad__down { grid-area: 3 / 2; }
+
+/* show touch controls on devices where the main input is a finger */
+@media (pointer: coarse) { .dpad { display: grid; } }
+
+@media (max-width: 860px) {
+  .game { grid-template-columns: 1fr; }
+  /* on phones the controls sit right under the map, so both fit on one screen without scrolling */
+  .dpad { order: -1; }
+}
